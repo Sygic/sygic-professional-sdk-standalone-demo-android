@@ -343,12 +343,6 @@ public class SdkActivity extends FragmentActivity implements ActivityResolver {
         f.addItinerary(startLon, startLat, stopLon, stopLat);
     }
 
-    @Override
-    public ApiCallback getApiCallback() {
-        return mApiCallback;
-    }
-
-
     //Api.bringApplicationToBackground() can be invoked by some event from background service.
     //We used as an example AlarmManager to set wakeup event after @millis. (see also StateChangeReceiver)
     @Override
@@ -386,13 +380,12 @@ public class SdkActivity extends FragmentActivity implements ActivityResolver {
     private class DemoApiCallback implements ApiCallback {
         @Override
         public void onEvent(final int event, final String data) {
+            Log.v("w201","event: "+event+" data: "+data );
             boolean show = true;
             switch (event) {
                 case ApiEvents.EVENT_APP_STARTED:
-                    SdkApplication.sRunning = true;
                     break;
                 case ApiEvents.EVENT_APP_EXIT:
-                    SdkApplication.sRunning = false;
                     Api.getInstance().disconnect();
                     SdkApplication.setService(false);
 

@@ -105,7 +105,9 @@ public class NaviFragment extends Fragment {
         } else {
             getActivity().registerReceiver(mChangeReceiver, intentFilter);
         }
+        long started = System.currentTimeMillis();
         refreshState(activity.isAppStarted(SdkApplication.MAX), activity.isServiceConnected());
+        Log.v("w201", "onResume: "+(System.currentTimeMillis() - started));
     }
 
     @Override
@@ -433,7 +435,9 @@ public class NaviFragment extends Fragment {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if (action.equals(SdkApplication.INTENT_CHANGE_STATE)) {
+                long started = System.currentTimeMillis();
                 refreshState(activity.isAppStarted(SdkApplication.MAX), activity.isServiceConnected());
+                Log.v("w201", String.valueOf(System.currentTimeMillis() - started) );
             }
         }
 

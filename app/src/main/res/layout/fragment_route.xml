@@ -13,7 +13,22 @@
         android:text="Current Route:"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge" />
+    <Button android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/current"
+            android:text="GetRoute"
+            android:id="@+id/btnGetRoute"
+            />
 
+    <TextView android:layout_width="0dp"
+              android:layout_height="match_parent"
+              android:id="@+id/tvRouteJson"
+
+              android:layout_toStartOf="@+id/waypoints"
+              android:layout_below="@id/btnGetRoute"
+              android:layout_alignParentStart="true"
+              android:layout_alignParentBottom="true"
+              />
     <ListView
         android:id="@+id/waypoints"
         android:layout_width="match_parent"

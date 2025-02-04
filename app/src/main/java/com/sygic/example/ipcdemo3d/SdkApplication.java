@@ -17,7 +17,7 @@ public class SdkApplication extends Application {
     public static String PATH_VOICES_2D;
     public static String PATH_VOICES_PERSON_2D;
     public static String PATH_LANGS;
-    public static final int MAX = 10000;
+    public static final int MAX = 20000;
 
     private static final String PACKAGE_NAME = "com.sygic";
     public static final String INTENT_ACTION_NO_SDCARD = PACKAGE_NAME + ".intent.action.noSdcard";
@@ -32,7 +32,6 @@ public class SdkApplication extends Application {
 
     public static final int ZOOM = 5000;
 
-    public static boolean sRunning = false;
     private static boolean mService = false;
 
     @Override

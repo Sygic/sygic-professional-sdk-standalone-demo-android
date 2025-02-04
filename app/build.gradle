@@ -1,17 +1,24 @@
 apply plugin: 'com.android.application'
+apply plugin: 'org.jetbrains.kotlin.plugin.serialization'
+apply plugin: 'org.jetbrains.kotlin.android'
+apply plugin: 'org.jetbrains.kotlin.plugin.compose'
 
 android {
     namespace = "com.sygic.example.ipcdemo3d"
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
         applicationId "com.sygic.example.ipcdemo3d"
         minSdkVersion 21
-        targetSdkVersion 34
+        targetSdkVersion 35
     }
 
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.3"
+    }
     buildFeatures {
-        buildConfig=true
+        buildConfig = true
+        compose = true
     }
 
     def DIM_PACKAGE = "NaviPackage"
@@ -64,10 +71,31 @@ android {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
     }
+    kotlinOptions {
+        jvmTarget = '11'
+    }
 
 }
 
 dependencies {
+//    implementation fileTree(dir: 'libs', include: ['*.aar'])
+
+    implementation 'androidx.activity:activity-compose:1.10.0'
+
+    def compose = "1.7.7"
+    implementation "androidx.compose.ui:ui:$compose"
+    implementation "androidx.compose.material:material:$compose"
+    implementation "androidx.compose.ui:ui-tooling-preview:$compose"
+    implementation "androidx.compose.material:material-icons-extended:$compose"
+
+    implementation 'androidx.compose.material3:material3:1.4.0-alpha07'
+
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.0'
+
+    def navigation = "2.8.5"
+    implementation("androidx.navigation:navigation-compose:$navigation")
+
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation "com.sygic.fleet:remote-api:6.2.0"
+    implementation 'androidx.core:core-ktx:1.15.0'
 }

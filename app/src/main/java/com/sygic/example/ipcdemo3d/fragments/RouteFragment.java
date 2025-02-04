@@ -7,12 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
+import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import com.sygic.example.ipcdemo3d.R;
 import com.sygic.example.ipcdemo3d.SdkApplication;
 import com.sygic.sdk.remoteapi.ApiItinerary;
+import com.sygic.sdk.remoteapi.ApiNavigation;
 import com.sygic.sdk.remoteapi.exception.GeneralException;
 import com.sygic.sdk.remoteapi.model.StopOffPoint;
 
@@ -58,6 +60,19 @@ public class RouteFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        view.findViewById(R.id.btnGetRoute).setOnClickListener(v -> {
+            try {
+                String route = ApiNavigation.getRoute(1, 0, 3000);
+                String jsonSize = "json size: " + route.length() * 2 / 1024 + " KB";
+                String routeHead = route.substring(0, Math.min(route.length(), 500));
+                ((TextView) view.findViewById(R.id.tvRouteJson)).setText(jsonSize+"\n\n"+routeHead);
+            } catch (GeneralException e) {
+            }
+        });
+    }
 
     /**
      * show point details on click

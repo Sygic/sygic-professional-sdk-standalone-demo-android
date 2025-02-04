@@ -1,8 +1,6 @@
 package com.sygic.example.ipcdemo3d;
 
 
-import com.sygic.sdk.remoteapi.ApiCallback;
-
 public interface ActivityResolver {
     boolean isAppStarted(int timeOut);
 
@@ -18,5 +16,4 @@ public interface ActivityResolver {
 
     void bringToBackg(long millis);
 
-    ApiCallback getApiCallback();
 }

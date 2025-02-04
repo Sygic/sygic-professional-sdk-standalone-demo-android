@@ -11,9 +11,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import androidx.fragment.app.Fragment;
-
 import com.sygic.example.ipcdemo3d.R;
 import com.sygic.example.ipcdemo3d.SdkApplication;
 import com.sygic.sdk.remoteapi.ApiLocation;
