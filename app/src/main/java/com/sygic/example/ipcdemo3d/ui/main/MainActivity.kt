@@ -47,6 +47,8 @@ import com.sygic.example.ipcdemo3d.ui.poisupdate.PoisUpdateScreen
 import com.sygic.example.ipcdemo3d.ui.route.RouteScreen
 import com.sygic.example.ipcdemo3d.ui.routeinfo.RouteInfo
 import com.sygic.example.ipcdemo3d.ui.routeinfo.RouteInfoScreen
+import com.sygic.example.ipcdemo3d.ui.search.SearchScreen
+import com.sygic.example.ipcdemo3d.ui.sound.SoundScreen
 import com.sygic.sdk.remoteapi.events.ApiEvents
 import kotlinx.coroutines.launch
 
@@ -189,6 +191,16 @@ class MainActivity : ComponentActivity() {
                 selected = selectedRoute == NavigationRoutes.RouteInfo,
                 onClick = { if (isEnabled) changeRoute.invoke(NavigationRoutes.RouteInfo) }
             )
+            NavigationDrawerItem(
+                label = { Text(text = "Sound", modifier = Modifier.alpha(if (isEnabled) 1.0f else 0.3f)) },
+                selected = selectedRoute == NavigationRoutes.Sound,
+                onClick = { if (isEnabled) changeRoute.invoke(NavigationRoutes.Sound) }
+            )
+            NavigationDrawerItem(
+                label = { Text(text = "Search", modifier = Modifier.alpha(if (isEnabled) 1.0f else 0.3f)) },
+                selected = selectedRoute == NavigationRoutes.Search,
+                onClick = { if (isEnabled) changeRoute.invoke(NavigationRoutes.Search) }
+            )
         }
     }
 
@@ -219,6 +231,12 @@ class MainActivity : ComponentActivity() {
             }
             composable<NavigationRoutes.RouteInfo> {
                 RouteInfoScreen(navController)
+            }
+            composable<NavigationRoutes.Sound> {
+                SoundScreen()
+            }
+            composable<NavigationRoutes.Search> {
+                SearchScreen()
             }
         }
     }

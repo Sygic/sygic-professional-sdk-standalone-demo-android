@@ -23,6 +23,12 @@ sealed class NavigationRoutes(val route: String = "") {
     @Serializable
     object RouteInfo: NavigationRoutes("routeInfo")
 
+    @Serializable
+    object Sound: NavigationRoutes("sound")
+
+    @Serializable
+    object Search: NavigationRoutes("search")
+
     companion object {
         fun getByName(routes: String?): NavigationRoutes? {
             return when (routes) {
@@ -32,6 +38,7 @@ sealed class NavigationRoutes(val route: String = "") {
                 UpdatePois.route -> UpdatePois
                 Location.route -> Location
                 RouteInfo.route -> RouteInfo
+                Sound.route -> Sound
                 else -> null
             }
         }

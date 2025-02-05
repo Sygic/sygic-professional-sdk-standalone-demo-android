@@ -17,6 +17,8 @@ import com.sygic.sdk.remoteapi.ApiItinerary
 import com.sygic.sdk.remoteapi.ApiLocation
 import com.sygic.sdk.remoteapi.ApiNavigation
 import com.sygic.sdk.remoteapi.ApiPoi
+import com.sygic.sdk.remoteapi.ApiTts
+import com.sygic.sdk.remoteapi.callback.OnSearchListener
 import com.sygic.sdk.remoteapi.events.ApiEvents
 import com.sygic.sdk.remoteapi.exception.GeneralException
 import com.sygic.sdk.remoteapi.model.Poi
@@ -25,6 +27,7 @@ import com.sygic.sdk.remoteapi.model.Position
 import com.sygic.sdk.remoteapi.model.StopOffPoint
 import com.sygic.sdk.remoteapi.model.WayPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -32,7 +35,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
+import java.util.ArrayList
 
 const val SDK_TIMEOUT = 10000
 
@@ -133,6 +138,40 @@ object SdkHelper {
                 null
             }
         }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    suspend fun search(value: String): String? = suspendCancellableCoroutine { continuation ->
+        val listener = object : OnSearchListener() {
+            override fun onResult(input: String?, waypoints: ArrayList<WayPoint?>?, resultCode: Int) {
+                    val result: String = if (resultCode != RC_OK) {
+                      "Search failed"
+                    } else {
+                        waypoints
+                            ?.filterNotNull()
+                            ?.joinToString(";") {
+                                "address: ${it.strAddress}\n${it.location.x}, ${it.location.y}\n\n"
+                            } ?: "Search is empty"
+                    }
+                continuation.resume(result, null)
+            }
+        }
+        try {
+            ApiLocation.searchLocation(value, listener, SdkApplication.MAX)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            continuation.resume("Search failed", null)
+        }
+    }
+
+    suspend fun ttsSpeak(text: String) {
+        runIO {
+            try {
+                ApiTts.playSound(text, SdkApplication.MAX)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
 
     suspend fun getLibVersion() =
         try {
