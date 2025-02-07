@@ -2,11 +2,7 @@ package com.sygic.example.ipcdemo3d;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.SharedPreferences;
+import android.content.*;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,20 +10,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TabHost;
 import android.widget.Toast;
-
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
-
-import com.sygic.example.ipcdemo3d.fragments.ItinFragment;
-import com.sygic.example.ipcdemo3d.fragments.LocationFragment;
-import com.sygic.example.ipcdemo3d.fragments.NaviFragment;
-import com.sygic.example.ipcdemo3d.fragments.PoisFragment;
-import com.sygic.example.ipcdemo3d.fragments.UpdatePoisFragment;
-import com.sygic.example.ipcdemo3d.fragments.RouteFragment;
-import com.sygic.example.ipcdemo3d.fragments.RouteInfoFragment;
-import com.sygic.example.ipcdemo3d.fragments.SearchFragment;
-import com.sygic.example.ipcdemo3d.fragments.SoundFragment;
+import com.sygic.example.ipcdemo3d.fragments.*;
 import com.sygic.sdk.remoteapi.Api;
 import com.sygic.sdk.remoteapi.ApiCallback;
 import com.sygic.sdk.remoteapi.events.ApiEvents;
@@ -43,7 +29,7 @@ import java.util.HashMap;
  */
 public class SdkActivity extends FragmentActivity implements ActivityResolver {
 
-    private static final int ITIN_MENU_INDEX = 4;
+    private static final int ITIN_MENU_INDEX = 5;
     public static int tabId = 0;
 
     private ActivityReceiver mReceiver;

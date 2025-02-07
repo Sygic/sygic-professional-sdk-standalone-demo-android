@@ -1,7 +1,6 @@
 package com.sygic.example.ipcdemo3d.ui.pois
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -11,7 +10,6 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
-import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuAnchorType
@@ -28,12 +26,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import com.sygic.sdk.remoteapi.model.Poi
 import com.sygic.sdk.remoteapi.model.PoiCategory
 
 @Composable
-fun PoisScreen(navController: NavController, viewModel: PoisScreenViewModel = viewModel()) {
+fun PoisScreen(viewModel: PoisScreenViewModel = viewModel()) {
 
     val state = viewModel.uiState
     val poiEditState = rememberTextFieldState("Poi Example")

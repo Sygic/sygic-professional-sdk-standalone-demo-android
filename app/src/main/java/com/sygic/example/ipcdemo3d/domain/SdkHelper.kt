@@ -1,16 +1,12 @@
 package com.sygic.example.ipcdemo3d.domain
 
-import android.R.attr.x
-import android.R.attr.y
 import android.content.Context
 import android.os.RemoteException
-import android.util.Log
 import com.sygic.example.ipcdemo3d.BuildConfig
 import com.sygic.example.ipcdemo3d.SdkApplication
 import com.sygic.example.ipcdemo3d.SygicSoundListener
-import com.sygic.example.ipcdemo3d.domain.SdkHelper.isServiceConnected
+import com.sygic.example.ipcdemo3d.domain.entity.StartStopRoute
 import com.sygic.sdk.remoteapi.Api
-import com.sygic.sdk.remoteapi.Api.isApplicationRunning
 import com.sygic.sdk.remoteapi.ApiCallback
 import com.sygic.sdk.remoteapi.ApiDialog
 import com.sygic.sdk.remoteapi.ApiItinerary
@@ -32,12 +28,10 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
-import java.util.ArrayList
 
 const val SDK_TIMEOUT = 10000
 
@@ -143,15 +137,15 @@ object SdkHelper {
     suspend fun search(value: String): String? = suspendCancellableCoroutine { continuation ->
         val listener = object : OnSearchListener() {
             override fun onResult(input: String?, waypoints: ArrayList<WayPoint?>?, resultCode: Int) {
-                    val result: String = if (resultCode != RC_OK) {
-                      "Search failed"
-                    } else {
-                        waypoints
-                            ?.filterNotNull()
-                            ?.joinToString(";") {
-                                "address: ${it.strAddress}\n${it.location.x}, ${it.location.y}\n\n"
-                            } ?: "Search is empty"
-                    }
+                val result: String = if (resultCode != RC_OK) {
+                    "Search failed"
+                } else {
+                    waypoints
+                        ?.filterNotNull()
+                        ?.joinToString(";") {
+                            "address: ${it.strAddress}\n${it.location.x}, ${it.location.y}\n\n"
+                        } ?: "Search is empty"
+                }
                 continuation.resume(result, null)
             }
         }
@@ -229,7 +223,6 @@ object SdkHelper {
                 null
             }
         }
-
 
 
     fun connect() {
@@ -314,10 +307,26 @@ object SdkHelper {
         }
     }
 
-    suspend fun getItineraryList(): List<StopOffPoint> =
+    suspend fun addStopoffPoint(position: Position, isVisible: Boolean, itinerary: String = "test1") = runIO {
+        val sop = StopOffPoint(
+            false,
+            false,
+            if (isVisible) StopOffPoint.PointType.VIAPOINT else StopOffPoint.PointType.INVISIBLE,
+            position.x,
+            position.y,
+            -1,
+            0,
+            "",
+            "",
+            ""
+        )
+        ApiItinerary.addEntryToItinerary(itinerary, sop, 1, SdkApplication.MAX);
+    }
+
+    suspend fun getItineraryList(name: String = "default"): List<StopOffPoint> =
         runIO {
             try {
-                ApiItinerary.getItineraryList("default", SdkApplication.MAX)
+                ApiItinerary.getItineraryList(name, SdkApplication.MAX)
             } catch (e: Exception) {
                 e.printStackTrace()
                 emptyList()
@@ -354,6 +363,56 @@ object SdkHelper {
             }
         }
     }
+
+    suspend fun setRoute() = runIO {
+        ApiItinerary.setRoute("test1", 0, SdkApplication.MAX)
+    }
+
+    suspend fun deleteStopOff(i: Int, itinerary: String) =
+        runIO {
+            ApiItinerary.deleteEntryInItinerary(itinerary, i, SdkApplication.MAX);
+        }
+
+    suspend fun deleteItinerary(name: String) {
+        runIO {
+            ApiItinerary.deleteItinerary("name", SdkApplication.MAX)
+        }
+    }
+
+    suspend fun addItinerary(route: StartStopRoute, routeName: String) {
+        runIO {
+            val route = ArrayList(
+                listOf(
+                    StopOffPoint(
+                        false,
+                        false,
+                        StopOffPoint.PointType.START,
+                        route.startLon,
+                        route.startLat,
+                        -1,
+                        0,
+                        "",
+                        "",
+                        ""
+                    ),
+                    StopOffPoint(
+                        false,
+                        false,
+                        StopOffPoint.PointType.FINISH,
+                        route.stopLon,
+                        route.stopLat,
+                        -1,
+                        0,
+                        "",
+                        "",
+                        ""
+                    )
+                )
+            )
+            ApiItinerary.addItinerary(route, routeName, SdkApplication.MAX)
+        }
+    }
+
 }
 
 

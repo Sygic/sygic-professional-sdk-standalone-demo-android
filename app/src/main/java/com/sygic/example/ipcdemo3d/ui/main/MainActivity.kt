@@ -41,11 +41,11 @@ import com.sygic.example.ipcdemo3d.domain.SdkHelper
 import com.sygic.example.ipcdemo3d.navigation.NavigationRoutes
 import com.sygic.example.ipcdemo3d.ui.SygicDemoTheme
 import com.sygic.example.ipcdemo3d.ui.home.HomeScreen
+import com.sygic.example.ipcdemo3d.ui.itinerary.ItineraryScreen
 import com.sygic.example.ipcdemo3d.ui.location.LocationScreen
 import com.sygic.example.ipcdemo3d.ui.pois.PoisScreen
 import com.sygic.example.ipcdemo3d.ui.poisupdate.PoisUpdateScreen
 import com.sygic.example.ipcdemo3d.ui.route.RouteScreen
-import com.sygic.example.ipcdemo3d.ui.routeinfo.RouteInfo
 import com.sygic.example.ipcdemo3d.ui.routeinfo.RouteInfoScreen
 import com.sygic.example.ipcdemo3d.ui.search.SearchScreen
 import com.sygic.example.ipcdemo3d.ui.sound.SoundScreen
@@ -187,6 +187,11 @@ class MainActivity : ComponentActivity() {
                 onClick = { if (isEnabled) changeRoute.invoke(NavigationRoutes.Location) }
             )
             NavigationDrawerItem(
+                label = { Text(text = "Itinerary", modifier = Modifier.alpha(if (isEnabled) 1.0f else 0.3f)) },
+                selected = selectedRoute == NavigationRoutes.Itinerary,
+                onClick = { if (isEnabled) changeRoute.invoke(NavigationRoutes.Itinerary) }
+            )
+            NavigationDrawerItem(
                 label = { Text(text = "Route Info", modifier = Modifier.alpha(if (isEnabled) 1.0f else 0.3f)) },
                 selected = selectedRoute == NavigationRoutes.RouteInfo,
                 onClick = { if (isEnabled) changeRoute.invoke(NavigationRoutes.RouteInfo) }
@@ -218,16 +223,19 @@ class MainActivity : ComponentActivity() {
                 HomeScreen(navController)
             }
             composable<NavigationRoutes.Route> {
-                RouteScreen(navController)
+                RouteScreen()
             }
             composable<NavigationRoutes.Pois> {
-                PoisScreen(navController)
+                PoisScreen()
             }
             composable<NavigationRoutes.UpdatePois> {
                 PoisUpdateScreen(navController)
             }
             composable<NavigationRoutes.Location> {
                 LocationScreen(navController)
+            }
+            composable<NavigationRoutes.Itinerary> {
+                ItineraryScreen()
             }
             composable<NavigationRoutes.RouteInfo> {
                 RouteInfoScreen(navController)

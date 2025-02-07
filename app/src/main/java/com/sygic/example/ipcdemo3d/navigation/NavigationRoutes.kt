@@ -29,6 +29,9 @@ sealed class NavigationRoutes(val route: String = "") {
     @Serializable
     object Search: NavigationRoutes("search")
 
+    @Serializable
+    object Itinerary: NavigationRoutes("itinerary")
+
     companion object {
         fun getByName(routes: String?): NavigationRoutes? {
             return when (routes) {
