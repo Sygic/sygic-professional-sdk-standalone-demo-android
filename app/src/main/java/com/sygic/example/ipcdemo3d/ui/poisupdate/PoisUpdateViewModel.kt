@@ -13,6 +13,7 @@ class PoisUpdateViewModel: ViewModel() {
 
     fun updatePois(command: String) {
         viewModelScope.launch {
+            _uiState.value = UIState()
             _uiState.value = UIState(SdkHelper.updatePois(command))
         }
     }

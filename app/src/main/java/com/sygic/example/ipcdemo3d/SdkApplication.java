@@ -37,14 +37,15 @@ public class SdkApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        PATH_GPS_LOG = Environment.getExternalStorageDirectory() + "/SygicTruck/Res/gpslogs";
-        PATH_ROUTE = Environment.getExternalStorageDirectory() + "/SygicTruck/Res/routes";
-        PATH_ITINERARY = Environment.getExternalStorageDirectory() + "/SygicTruck/Res/itinerary";
-        PATH_BTIMAP = Environment.getExternalStorageDirectory() + "/SygicTruck/Res/icons/rupi";
-        PATH_GF = Environment.getExternalStorageDirectory() + "/SygicTruck/Res/geofiles";
-        PATH_VOICES_2D = Environment.getExternalStorageDirectory() + "/SygicTruck/Res/voices";
-        PATH_VOICES_PERSON_2D = Environment.getExternalStorageDirectory() + "/LoquendoTTS/modules";
-        PATH_LANGS = Environment.getExternalStorageDirectory() + "/SygicTruck/Res/skin/langs";
+        String prefix = Environment.getExternalStorageDirectory() + "/Android/data/" + BuildConfig.NAVI_PACKAGE+"/files/SygicTruck/";
+        PATH_GPS_LOG = prefix+"Res/gpslogs";
+        PATH_ROUTE = prefix+"Res/routes";
+        PATH_ITINERARY = prefix+"Res/itinerary";
+        PATH_BTIMAP = prefix+"Res/icons/rupi";
+        PATH_GF = prefix+"Res/geofiles";
+        PATH_VOICES_2D = prefix+"Res/voices";
+        PATH_VOICES_PERSON_2D = prefix+"LoquendoTTS/modules";
+        PATH_LANGS = prefix+"Res/skin/langs";
     }
 
     public static boolean isService() {

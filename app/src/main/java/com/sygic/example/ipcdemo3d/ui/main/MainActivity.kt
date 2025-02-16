@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -27,7 +26,6 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
@@ -56,13 +54,13 @@ class MainActivity : ComponentActivity() {
 
     private val viewModel: MainActivityViewModel by viewModels()
 
-    private val permissionLauncher =
+   /* private val permissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (!isGranted) {
                 Toast.makeText(this, "Permission denied. Can\'t continue", Toast.LENGTH_SHORT).show()
                 finish()
             }
-        }
+        }*/
 
     override fun onResume() {
         super.onResume()
@@ -86,13 +84,13 @@ class MainActivity : ComponentActivity() {
                 handleEvent(it)
             }
         }
-        if (ActivityCompat.checkSelfPermission(
+       /* if (ActivityCompat.checkSelfPermission(
                 this,
                 android.Manifest.permission.WRITE_EXTERNAL_STORAGE
             ) != android.content.pm.PackageManager.PERMISSION_GRANTED
         ) {
             permissionLauncher.launch(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-        }
+        }*/
 
         setContent {
             val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)

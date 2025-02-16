@@ -168,31 +168,34 @@ object SdkHelper {
     }
 
     suspend fun getLibVersion() =
-        try {
-            runIO {
+        runIO {
+            try {
                 Api.getLibVersion()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                null
             }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null
         }
 
     suspend fun getMapVersion() =
-        try {
-            runIO {
+        runIO {
+            try {
                 Api.getMapVersion("SVK", SdkApplication.MAX)
+            } catch (e: Exception) {
+                null
             }
-        } catch (e: Exception) {
-            null
         }
 
-    suspend fun getDeviceId() = try {
+
+    suspend fun getDeviceId() =
         runIO {
-            Api.getUniqueDeviceId(SdkApplication.MAX)
+            try {
+                Api.getUniqueDeviceId(SdkApplication.MAX)
+            } catch (e: Exception) {
+                null
+            }
         }
-    } catch (e: Exception) {
-        null
-    }
+
 
     suspend fun appVersion() = runIO {
         try {
@@ -204,13 +207,14 @@ object SdkHelper {
     }
 
     suspend fun startNaviInForeground() {
-        try {
-            runIO {
+        runIO {
+            try {
                 Api.getInstance().show(false)
+            } catch (e: RemoteException) {
+                e.printStackTrace();
             }
-        } catch (e: RemoteException) {
-            e.printStackTrace();
         }
+
         isApplicationRunning()
     }
 
