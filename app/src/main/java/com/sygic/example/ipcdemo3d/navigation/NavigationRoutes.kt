@@ -3,7 +3,7 @@ package com.sygic.example.ipcdemo3d.navigation
 import kotlinx.serialization.Serializable
 
 @Serializable
-sealed class NavigationRoutes(val route: String = "") {
+sealed class NavigationRoutes(val route: String) {
 
     @Serializable
     object Home: NavigationRoutes("home")

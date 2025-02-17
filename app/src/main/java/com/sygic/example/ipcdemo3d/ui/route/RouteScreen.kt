@@ -30,6 +30,7 @@ import com.sygic.sdk.remoteapi.model.StopOffPoint
 fun RouteScreen(viewModel: RouteScreenViewModel = viewModel()) {
     val items = viewModel.routes.value
     val pointInfoState = remember { mutableStateOf<StopOffPoint?>(null) }
+
     pointInfoState.value?.let {
         PointInfoDialog(it) { pointInfoState.value = null }
     }

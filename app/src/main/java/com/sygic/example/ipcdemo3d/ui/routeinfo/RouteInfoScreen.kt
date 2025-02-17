@@ -1,7 +1,5 @@
 package com.sygic.example.ipcdemo3d.ui.routeinfo
 
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,7 +10,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Divider
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -21,12 +18,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import com.sygic.example.ipcdemo3d.utils.formatTime
 import com.sygic.sdk.remoteapi.model.RouteInfo
 
 @Composable
-fun RouteInfoScreen(navigation: NavController, viewModel: RouteInfoScreenViewModel = viewModel()) {
+fun RouteInfoScreen(viewModel: RouteInfoScreenViewModel = viewModel()) {
 
     Column(
         Modifier

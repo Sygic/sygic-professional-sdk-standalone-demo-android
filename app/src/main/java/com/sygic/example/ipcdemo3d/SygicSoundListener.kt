@@ -1,22 +1,19 @@
-package com.sygic.example.ipcdemo3d;
+package com.sygic.example.ipcdemo3d
 
-import android.util.Log;
+import android.util.Log
+import com.sygic.sdk.remoteapi.OnSoundListener
+import com.sygic.sdk.remoteapi.OnTtsListener
 
-import com.sygic.sdk.remoteapi.OnSoundListener;
-import com.sygic.sdk.remoteapi.OnTtsListener;
-
-public class SygicSoundListener implements OnSoundListener, OnTtsListener {
-
-    private static final String LOG_TAG = SygicSoundListener.class.getSimpleName();
-
-    @Override
-    public void onSound(boolean arg0) {
-        Log.d(LOG_TAG, "onSound " + arg0);
+class SygicSoundListener : OnSoundListener, OnTtsListener {
+    override fun onSound(arg0: Boolean) {
+        Log.d(LOG_TAG, "onSound $arg0")
     }
 
-    @Override
-    public void onTts(String arg0) {
-        Log.d(LOG_TAG, "onTts " + arg0);
+    override fun onTts(arg0: String?) {
+        Log.d(LOG_TAG, "onTts $arg0")
     }
 
+    companion object {
+        private val LOG_TAG = SygicSoundListener::class.java.simpleName
+    }
 }

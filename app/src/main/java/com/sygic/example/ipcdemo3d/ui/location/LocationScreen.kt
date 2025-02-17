@@ -19,10 +19,9 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 
 @Composable
-fun LocationScreen(navigation: NavController, viewModel: LocationScreenViewModel = viewModel()) {
+fun LocationScreen(viewModel: LocationScreenViewModel = viewModel()) {
     val longFieldState = rememberTextFieldState()
     val latFieldState = rememberTextFieldState()
     val addressFieldState = rememberTextFieldState()

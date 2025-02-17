@@ -66,8 +66,8 @@ object SdkHelper {
 
         override fun onServiceConnected() {
             _isServiceConnected.value = true
-            Api.getInstance().setOnSoundListener(soundListener);
-            Api.getInstance().setOnTtsListener(soundListener);
+            Api.getInstance().setOnSoundListener(soundListener)
+            Api.getInstance().setOnTtsListener(soundListener)
             GlobalScope.launch {
                 isApplicationRunning()
             }
@@ -182,26 +182,26 @@ object SdkHelper {
             try {
                 Api.getMapVersion("SVK", SdkApplication.MAX)
             } catch (e: Exception) {
+                e.printStackTrace()
                 null
             }
         }
-
 
     suspend fun getDeviceId() =
         runIO {
             try {
                 Api.getUniqueDeviceId(SdkApplication.MAX)
             } catch (e: Exception) {
+                e.printStackTrace()
                 null
             }
         }
 
-
     suspend fun appVersion() = runIO {
         try {
-            Api.getApplicationVersion(SdkApplication.MAX);
+            Api.getApplicationVersion(SdkApplication.MAX)
         } catch (e: GeneralException) {
-            e.printStackTrace();
+            e.printStackTrace()
             null
         }
     }
@@ -211,7 +211,7 @@ object SdkHelper {
             try {
                 Api.getInstance().show(false)
             } catch (e: RemoteException) {
-                e.printStackTrace();
+                e.printStackTrace()
             }
         }
 
@@ -227,7 +227,6 @@ object SdkHelper {
                 null
             }
         }
-
 
     fun connect() {
         try {
@@ -279,18 +278,18 @@ object SdkHelper {
                 DialogResult.entries.firstOrNull { it.value == result }
             }
         } catch (e: RemoteException) {
-            e.printStackTrace();
+            e.printStackTrace()
             null
         }
 
     suspend fun flashMessage() {
         try {
             runIO {
-                ApiDialog.flashMessage("This is sample message", SdkApplication.MAX);
-                Api.getInstance().show(false);
+                ApiDialog.flashMessage("This is sample message", SdkApplication.MAX)
+                Api.getInstance().show(false)
             }
         } catch (e: RemoteException) {
-            e.printStackTrace();
+            e.printStackTrace()
         }
     }
 
@@ -306,7 +305,7 @@ object SdkHelper {
                 Api.endApplication(SdkApplication.MAX)
                 isApplicationRunning()
             } catch (e: GeneralException) {
-                e.printStackTrace();
+                e.printStackTrace()
             }
         }
     }
@@ -324,7 +323,7 @@ object SdkHelper {
             "",
             ""
         )
-        ApiItinerary.addEntryToItinerary(itinerary, sop, 1, SdkApplication.MAX);
+        ApiItinerary.addEntryToItinerary(itinerary, sop, 1, SdkApplication.MAX)
     }
 
     suspend fun getItineraryList(name: String = "default"): List<StopOffPoint> =
@@ -350,7 +349,7 @@ object SdkHelper {
     suspend fun getPoiList(category: String, searchAddress: Boolean = true): List<Poi>? =
         runIO {
             try {
-                ApiPoi.getPoiList(category, searchAddress, SdkApplication.MAX);
+                ApiPoi.getPoiList(category, searchAddress, SdkApplication.MAX)
             } catch (e: Exception) {
                 e.printStackTrace()
                 emptyList()
@@ -360,7 +359,7 @@ object SdkHelper {
     suspend fun navigateTo(address: String) {
         runIO {
             try {
-                val pos = ApiLocation.locationFromAddress(address, false, true, 0);
+                val pos = ApiLocation.locationFromAddress(address, false, true, 0)
                 ApiNavigation.startNavigation(WayPoint(address, pos.x, pos.y), 0, false, 0)
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -374,12 +373,12 @@ object SdkHelper {
 
     suspend fun deleteStopOff(i: Int, itinerary: String) =
         runIO {
-            ApiItinerary.deleteEntryInItinerary(itinerary, i, SdkApplication.MAX);
+            ApiItinerary.deleteEntryInItinerary(itinerary, i, SdkApplication.MAX)
         }
 
     suspend fun deleteItinerary(name: String) {
         runIO {
-            ApiItinerary.deleteItinerary("name", SdkApplication.MAX)
+            ApiItinerary.deleteItinerary(name, SdkApplication.MAX)
         }
     }
 
@@ -418,7 +417,6 @@ object SdkHelper {
     }
 
 }
-
 
 enum class DialogResult(val value: Int) {
     NEGATIVE(101), POSITIVE(201)

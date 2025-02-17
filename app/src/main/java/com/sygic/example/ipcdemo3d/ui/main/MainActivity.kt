@@ -54,14 +54,6 @@ class MainActivity : ComponentActivity() {
 
     private val viewModel: MainActivityViewModel by viewModels()
 
-   /* private val permissionLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-            if (!isGranted) {
-                Toast.makeText(this, "Permission denied. Can\'t continue", Toast.LENGTH_SHORT).show()
-                finish()
-            }
-        }*/
-
     override fun onResume() {
         super.onResume()
         viewModel.refreshApplicationState()
@@ -84,13 +76,6 @@ class MainActivity : ComponentActivity() {
                 handleEvent(it)
             }
         }
-       /* if (ActivityCompat.checkSelfPermission(
-                this,
-                android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ) != android.content.pm.PackageManager.PERMISSION_GRANTED
-        ) {
-            permissionLauncher.launch(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-        }*/
 
         setContent {
             val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -218,7 +203,7 @@ class MainActivity : ComponentActivity() {
             startDestination = NavigationRoutes.Home,
         ) {
             composable<NavigationRoutes.Home> {
-                HomeScreen(navController)
+                HomeScreen()
             }
             composable<NavigationRoutes.Route> {
                 RouteScreen()
@@ -227,16 +212,16 @@ class MainActivity : ComponentActivity() {
                 PoisScreen()
             }
             composable<NavigationRoutes.UpdatePois> {
-                PoisUpdateScreen(navController)
+                PoisUpdateScreen()
             }
             composable<NavigationRoutes.Location> {
-                LocationScreen(navController)
+                LocationScreen()
             }
             composable<NavigationRoutes.Itinerary> {
                 ItineraryScreen()
             }
             composable<NavigationRoutes.RouteInfo> {
-                RouteInfoScreen(navController)
+                RouteInfoScreen()
             }
             composable<NavigationRoutes.Sound> {
                 SoundScreen()

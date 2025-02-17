@@ -33,7 +33,6 @@ import com.sygic.sdk.remoteapi.model.PoiCategory
 fun PoisScreen(viewModel: PoisScreenViewModel = viewModel()) {
 
     val state = viewModel.uiState
-    val poiEditState = rememberTextFieldState("Poi Example")
     Column(
         Modifier
             .fillMaxSize()
@@ -49,7 +48,6 @@ fun PoisScreen(viewModel: PoisScreenViewModel = viewModel()) {
             PoiList(state.value.pois)
         }
     }
-
 }
 
 @Composable
@@ -81,9 +79,6 @@ fun CategorySelector(data: List<PoiCategory>, itemSelected: (PoiCategory) -> Uni
         onExpandedChange = { expanded = it },
     ) {
         TextField(
-            // The `menuAnchor` modifier must be passed to the text field to handle
-            // expanding/collapsing the menu on click. A read-only text field has
-            // the anchor type `PrimaryNotEditable`.
             modifier = Modifier.menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable),
             state = textFieldState,
             readOnly = true,

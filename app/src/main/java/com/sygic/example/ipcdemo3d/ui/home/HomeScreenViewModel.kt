@@ -28,6 +28,7 @@ class HomeScreenViewModel() : ViewModel() {
                 _ui.value = _ui.value.copy(isConnected = it)
             }
         }
+
         viewModelScope.launch {
             SdkHelper.isAppRunning.collect {
                 _ui.value = _ui.value.copy(isAppRunning = it)
@@ -50,30 +51,27 @@ class HomeScreenViewModel() : ViewModel() {
         viewModelScope.launch {
             try {
                 SdkHelper.flashMessage5s()
-                Api.getInstance().show(false);
+                Api.getInstance().show(false)
             } catch (e: RemoteException) {
                 e.printStackTrace()
             } catch (e: GeneralException) {
                 e.printStackTrace()
             }
         }
+
         val am = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val amIntent = Intent(context, StateChangeReceiver::class.java).apply {
             action = SdkApplication.INTENT_ACTION_AM_WAKEUP
         }
 
         val pi = PendingIntent.getBroadcast(context, 0, amIntent, PendingIntent.FLAG_IMMUTABLE)
-        am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, pi);
+        am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, pi)
     }
 
     fun endNavigation() {
         viewModelScope.launch {
             SdkHelper.endNavigation()
         }
-    }
-
-    fun options() {
-
     }
 
     fun appVersion() {
@@ -122,6 +120,7 @@ class HomeScreenViewModel() : ViewModel() {
     fun disconnect() {
         SdkHelper.disconnect()
     }
+
 }
 
 data class UIState(

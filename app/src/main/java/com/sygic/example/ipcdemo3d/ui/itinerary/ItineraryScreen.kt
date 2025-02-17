@@ -140,7 +140,7 @@ fun WaipointItem(
     }
 }
 
-fun getStopOffTitle(entry: StopOffPoint): String =
+private fun getStopOffTitle(entry: StopOffPoint): String =
     when {
         !entry.caption.isNullOrEmpty() -> entry.caption
         !entry.address.isNullOrEmpty() -> entry.address

@@ -14,6 +14,7 @@ class SearchScreenViewModel: ViewModel() {
 
     fun search(string: String) {
         viewModelScope.launch {
+            _uiState.value = UIState()
             _uiState.value = UIState(SdkHelper.search(string))
         }
     }

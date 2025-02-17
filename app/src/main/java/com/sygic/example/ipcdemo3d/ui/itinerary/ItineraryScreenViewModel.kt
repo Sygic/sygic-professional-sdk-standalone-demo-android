@@ -15,7 +15,6 @@ class ItineraryScreenViewModel : ViewModel() {
     private val _uiState = mutableStateOf(UIState())
     val uiState: State<UIState> = _uiState
 
-
     init {
         refreshItinerary()
     }
@@ -30,7 +29,6 @@ class ItineraryScreenViewModel : ViewModel() {
                 _uiState.value = UIState(message = "Failed to add entry")
             }
         }
-
     }
 
     fun calculateRoute() {
@@ -40,6 +38,7 @@ class ItineraryScreenViewModel : ViewModel() {
                     SdkHelper.setRoute()
                     "Route calculated"
                 } catch (e: Exception) {
+                    e.printStackTrace()
                     "No itinerary added"
                 },
                 uiState.value.waypoints

@@ -12,13 +12,17 @@ import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavHostController
 
 @Composable
-fun HomeScreen(navigation: NavHostController, viewModel: HomeScreenViewModel = viewModel()) {
+@Preview
+fun HomeScreen(viewModel: HomeScreenViewModel = viewModel()) {
     val state = viewModel.ui.value
+    val context = LocalContext.current
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -36,7 +40,9 @@ fun HomeScreen(navigation: NavHostController, viewModel: HomeScreenViewModel = v
             onClick = { if (state.isConnected) viewModel.disconnect() else viewModel.connect() }) {
             Text(text = if (state.isConnected) "Disconnect from Sygic Service" else "Connect to Sygic Service")
         }
+
         Spacer(Modifier.height(8.dp))
+
         Button(
             enabled = state.isConnected,
             modifier = Modifier.fillMaxWidth(),
@@ -45,13 +51,16 @@ fun HomeScreen(navigation: NavHostController, viewModel: HomeScreenViewModel = v
         }
 
         Spacer(Modifier.height(8.dp))
+
         Button(
             enabled = state.isConnected && state.isAppRunning,
             modifier = Modifier.fillMaxWidth(),
-            onClick = { viewModel.bringForeg5s(navigation.context) }) {
+            onClick = { viewModel.bringForeg5s(context) }) {
             Text(text = "Bring to Foreground for 5s")
         }
+
         Spacer(Modifier.height(8.dp))
+
         Button(
             enabled = state.isConnected && state.isAppRunning,
             modifier = Modifier.fillMaxWidth(),
@@ -60,17 +69,19 @@ fun HomeScreen(navigation: NavHostController, viewModel: HomeScreenViewModel = v
         }
 
         Spacer(Modifier.height(8.dp))
+
         Row {
             Button(
                 enabled = state.isConnected && state.isAppRunning,
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxWidth(),
-                onClick = { viewModel.options() }) {
-                Text(text = "Options")
+                onClick = { viewModel.sdkVersion() }) {
+                Text(text = "SDK Version")
             }
 
             Spacer(Modifier.width(8.dp))
+
             Button(
                 enabled = state.isConnected && state.isAppRunning,
                 modifier = Modifier
@@ -82,6 +93,7 @@ fun HomeScreen(navigation: NavHostController, viewModel: HomeScreenViewModel = v
         }
 
         Spacer(Modifier.height(8.dp))
+
         Row {
             Button(
                 enabled = state.isConnected && state.isAppRunning,
@@ -93,6 +105,7 @@ fun HomeScreen(navigation: NavHostController, viewModel: HomeScreenViewModel = v
             }
 
             Spacer(Modifier.width(8.dp))
+
             Button(
                 enabled = state.isConnected && state.isAppRunning,
                 modifier = Modifier
@@ -115,6 +128,7 @@ fun HomeScreen(navigation: NavHostController, viewModel: HomeScreenViewModel = v
             }
 
             Spacer(Modifier.width(8.dp))
+
             Button(
                 enabled = state.isConnected && state.isAppRunning,
                 modifier = Modifier
@@ -126,23 +140,7 @@ fun HomeScreen(navigation: NavHostController, viewModel: HomeScreenViewModel = v
         }
 
         Spacer(Modifier.height(8.dp))
-        Row {
-            Spacer(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxWidth(),
-            )
-            Spacer(Modifier.width(8.dp))
-            Button(
-                enabled = state.isConnected && state.isAppRunning,
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxWidth(),
-                onClick = { viewModel.sdkVersion() }) {
-                Text(text = "SDK Version")
-            }
-        }
-        Spacer(Modifier.height(8.dp))
         Text(text = state.message ?: "")
     }
+
 }

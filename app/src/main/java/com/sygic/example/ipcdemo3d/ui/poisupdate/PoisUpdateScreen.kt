@@ -5,20 +5,21 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.Button
-import androidx.compose.material3.TextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
-import com.sygic.example.ipcdemo3d.ui.pois.PoisScreenViewModel
 
 @Composable
-fun PoisUpdateScreen(navigation: NavController, viewModel: PoisUpdateViewModel = viewModel()) {
+fun PoisUpdateScreen(viewModel: PoisUpdateViewModel = viewModel()) {
     Column(Modifier.fillMaxSize()) {
         val commandFieldState = rememberTextFieldState()
+        val context = LocalContext.current
+
         viewModel.uiState.value.updateResult?.let {
-            Toast.makeText(navigation.context, it, Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
         }
 
         TextField(commandFieldState, label = { Text("Command") }, modifier = Modifier.fillMaxSize().weight(1f))
