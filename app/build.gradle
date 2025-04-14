@@ -100,6 +100,6 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:$navigation")
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation "com.sygic.fleet:remote-api:6.5.0" //TODO: Zmenit' na aktualnu
+    implementation "com.sygic.fleet:remote-api:6.5.0" //TODO: Zmenit' na aktualnu verziu z podporou api.import(byte[]...)
     implementation 'androidx.core:core-ktx:1.15.0'
 }
