@@ -19,7 +19,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 @Preview
-fun HomeScreen(viewModel: HomeScreenViewModel = viewModel()) {
+fun HomeScreen(viewModel: HomeScreenViewModel = viewModel(), selectFile: () -> Unit = {}) {
     val state = viewModel.ui.value
     val context = LocalContext.current
 
@@ -137,6 +137,13 @@ fun HomeScreen(viewModel: HomeScreenViewModel = viewModel()) {
                 onClick = { viewModel.showMessage() }) {
                 Text(text = "Show Message")
             }
+        }
+        Button(
+            enabled = state.isConnected && state.isAppRunning,
+            modifier = Modifier.fillMaxWidth(),
+            onClick = selectFile
+        ) {
+            Text(text = "Import File")
         }
 
         Spacer(Modifier.height(8.dp))

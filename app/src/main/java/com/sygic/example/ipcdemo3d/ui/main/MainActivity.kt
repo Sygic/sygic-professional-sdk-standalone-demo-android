@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -53,6 +54,16 @@ import kotlinx.coroutines.launch
 class MainActivity : ComponentActivity() {
 
     private val viewModel: MainActivityViewModel by viewModels()
+
+    private val selectFileLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) {
+        it?.let {
+            viewModel.importFile(it)
+        }
+    }
+
+    private val selectImportFile = {
+        selectFileLauncher.launch("*/*")
+    }
 
     override fun onResume() {
         super.onResume()
@@ -203,7 +214,7 @@ class MainActivity : ComponentActivity() {
             startDestination = NavigationRoutes.Home,
         ) {
             composable<NavigationRoutes.Home> {
-                HomeScreen()
+                HomeScreen(selectFile = selectImportFile)
             }
             composable<NavigationRoutes.Route> {
                 RouteScreen()
