@@ -7,12 +7,10 @@ import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.viewModelScope
 import com.sygic.example.ipcdemo3d.domain.SdkHelper
 import com.sygic.example.ipcdemo3d.utils.getOriginalFileName
+import com.sygic.example.ipcdemo3d.utils.runIO
 import com.sygic.sdk.remoteapi.Api
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class MainActivityViewModel(val app: Application) : AndroidViewModel(app) {
 
@@ -23,7 +21,7 @@ class MainActivityViewModel(val app: Application) : AndroidViewModel(app) {
     val isServiceConnected = SdkHelper.isServiceConnected
 
     fun refreshApplicationState() {
-        viewModelScope.launch {
+        runIO {
             SdkHelper.isApplicationRunning()
         }
     }
@@ -33,7 +31,7 @@ class MainActivityViewModel(val app: Application) : AndroidViewModel(app) {
     }
 
     fun importFile(uri: Uri) {
-        viewModelScope.launch(Dispatchers.IO) {
+        runIO {
             app.contentResolver.openInputStream(uri)?.use {
                 _uiState.value = UIState(uploading = true, uploadingProgress = 0f)
 

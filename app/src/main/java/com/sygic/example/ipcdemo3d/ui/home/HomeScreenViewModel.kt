@@ -8,14 +8,13 @@ import android.os.RemoteException
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.sygic.example.ipcdemo3d.SdkApplication
 import com.sygic.example.ipcdemo3d.StateChangeReceiver
 import com.sygic.example.ipcdemo3d.domain.DialogResult
 import com.sygic.example.ipcdemo3d.domain.SdkHelper
+import com.sygic.example.ipcdemo3d.utils.runIO
 import com.sygic.sdk.remoteapi.Api
 import com.sygic.sdk.remoteapi.exception.GeneralException
-import kotlinx.coroutines.launch
 
 class HomeScreenViewModel() : ViewModel() {
 
@@ -23,13 +22,13 @@ class HomeScreenViewModel() : ViewModel() {
     val ui: State<UIState> get() = _ui
 
     init {
-        viewModelScope.launch {
+        runIO {
             SdkHelper.isServiceConnected.collect {
                 _ui.value = _ui.value.copy(isConnected = it)
             }
         }
 
-        viewModelScope.launch {
+        runIO {
             SdkHelper.isAppRunning.collect {
                 _ui.value = _ui.value.copy(isAppRunning = it)
             }
@@ -41,14 +40,14 @@ class HomeScreenViewModel() : ViewModel() {
     }
 
     fun startNaviForeg() {
-        viewModelScope.launch {
+        runIO {
             SdkHelper.startNaviInForeground()
         }
     }
 
     fun bringForeg5s(context: Context) {
 
-        viewModelScope.launch {
+        runIO {
             try {
                 SdkHelper.flashMessage5s()
                 Api.getInstance().show(false)
@@ -69,37 +68,37 @@ class HomeScreenViewModel() : ViewModel() {
     }
 
     fun endNavigation() {
-        viewModelScope.launch {
+        runIO {
             SdkHelper.endNavigation()
         }
     }
 
     fun appVersion() {
-        viewModelScope.launch {
+        runIO {
             _ui.value = ui.value.copy(message = SdkHelper.appVersion()?.toString())
         }
     }
 
     fun deviceId() {
-        viewModelScope.launch {
+        runIO {
             _ui.value = ui.value.copy(message = SdkHelper.getDeviceId())
         }
     }
 
     fun mapVersion() {
-        viewModelScope.launch {
+        runIO {
             _ui.value = ui.value.copy(message = SdkHelper.getMapVersion())
         }
     }
 
     fun flashMessage() {
-        viewModelScope.launch {
+        runIO {
             SdkHelper.flashMessage()
         }
     }
 
     fun showMessage() {
-        viewModelScope.launch {
+        runIO {
             _ui.value = ui.value.copy(
                 message =
                     when (SdkHelper.showMessage()) {
@@ -112,7 +111,7 @@ class HomeScreenViewModel() : ViewModel() {
     }
 
     fun sdkVersion() {
-        viewModelScope.launch {
+        runIO {
             _ui.value = ui.value.copy(message = SdkHelper.getLibVersion())
         }
     }
