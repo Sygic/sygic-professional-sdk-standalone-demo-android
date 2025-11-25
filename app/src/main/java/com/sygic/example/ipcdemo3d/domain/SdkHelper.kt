@@ -101,11 +101,11 @@ object SdkHelper {
             }
         }
 
-    suspend fun navigateToPoint(lat: Int, lon: Int) {
+    suspend fun navigateToPoint(lat: Int, lon: Int, customAddress: String) {
         runIO {
             try {
                 val address = ApiLocation.getLocationAddressInfo(Position(lon, lat), SdkApplication.MAX)
-                ApiNavigation.startNavigation(WayPoint(address, lon, lat), 0, false, SdkApplication.MAX)
+                ApiNavigation.startNavigation(WayPoint(address, lon, lat, customAddress), 0, false, SdkApplication.MAX)
             } catch (e: Exception) {
                 e.printStackTrace()
                 null
@@ -356,11 +356,11 @@ object SdkHelper {
             }
         }
 
-    suspend fun navigateTo(address: String) {
+    suspend fun navigateTo(address: String, customAddress: String) {
         runIO {
             try {
                 val pos = ApiLocation.locationFromAddress(address, false, true, 0)
-                ApiNavigation.startNavigation(WayPoint(address, pos.x, pos.y), 0, false, 0)
+                ApiNavigation.startNavigation(WayPoint(address, pos.x, pos.y, customAddress), 0, false, 0)
             } catch (e: Exception) {
                 e.printStackTrace()
             }

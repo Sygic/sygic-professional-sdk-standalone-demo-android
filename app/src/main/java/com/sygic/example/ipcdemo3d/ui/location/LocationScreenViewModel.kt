@@ -34,21 +34,21 @@ class LocationScreenViewModel: ViewModel() {
         }
     }
 
-    fun navigateToAddress(address: String?) {
+    fun navigateToAddress(address: String?, customAddress: String) {
         address?.let {
             viewModelScope.launch {
-                SdkHelper.navigateTo(it)
+                SdkHelper.navigateTo(it, customAddress)
             }
         }
     }
 
-    fun navigateToPoint(lat: String, lon: String) {
+    fun navigateToPoint(lat: String, lon: String, customAddress: String) {
         val latInt = lat.toIntOrNull()
         val lonInt = lon.toIntOrNull()
         _uiState.value = UIState(lonInt == null, latInt == null)
         if (latInt != null && lonInt != null) {
             viewModelScope.launch {
-                SdkHelper.navigateToPoint(latInt, lonInt).toString()
+                SdkHelper.navigateToPoint(latInt, lonInt, customAddress).toString()
             }
         }
     }

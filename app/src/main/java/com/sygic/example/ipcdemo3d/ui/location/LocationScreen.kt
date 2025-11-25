@@ -25,6 +25,7 @@ fun LocationScreen(viewModel: LocationScreenViewModel = viewModel()) {
     val longFieldState = rememberTextFieldState()
     val latFieldState = rememberTextFieldState()
     val addressFieldState = rememberTextFieldState()
+    val customAddressFieldState = rememberTextFieldState()
     val keyboardController = LocalSoftwareKeyboardController.current
     val state = viewModel.uiState.value
 
@@ -59,7 +60,7 @@ fun LocationScreen(viewModel: LocationScreenViewModel = viewModel()) {
             Button(
                 onClick = {
                     keyboardController?.hide()
-                    viewModel.navigateToPoint(latFieldState.text.toString(), longFieldState.text.toString())
+                    viewModel.navigateToPoint(latFieldState.text.toString(), longFieldState.text.toString(), customAddressFieldState.text.toString())
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -70,7 +71,7 @@ fun LocationScreen(viewModel: LocationScreenViewModel = viewModel()) {
             Button(
                 onClick = {
                     keyboardController?.hide()
-                    viewModel.navigateToAddress(addressFieldState.text.toString())
+                    viewModel.navigateToAddress(addressFieldState.text.toString(), customAddressFieldState.text.toString())
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -105,6 +106,12 @@ fun LocationScreen(viewModel: LocationScreenViewModel = viewModel()) {
         TextField(
             addressFieldState,
             label = { Text("ISO, City, Street, number") },
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(Modifier.height(8.dp))
+        TextField(
+            customAddressFieldState,
+            label = { Text("Custom address") },
             modifier = Modifier.fillMaxWidth()
         )
         state.result?.let {
