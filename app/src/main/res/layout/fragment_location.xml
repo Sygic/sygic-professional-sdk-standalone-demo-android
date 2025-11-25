@@ -103,4 +103,18 @@
         <requestFocus />
     </EditText>
 
+    <EditText
+        android:id="@+id/edCustomAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/et3"
+        android:layout_alignLeft="@id/et3"
+        android:layout_alignRight="@id/et3"
+        android:ems="10"
+        android:hint="Custom address"
+        android:lines="1"
+        android:inputType="text"
+        android:textAppearance="?android:attr/textAppearanceLarge">
+    </EditText>
+
 </RelativeLayout>
