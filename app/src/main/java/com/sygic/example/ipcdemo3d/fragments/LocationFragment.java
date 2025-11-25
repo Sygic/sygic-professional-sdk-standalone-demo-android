@@ -11,9 +11,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import androidx.fragment.app.Fragment;
-
 import com.sygic.example.ipcdemo3d.R;
 import com.sygic.example.ipcdemo3d.SdkApplication;
 import com.sygic.sdk.remoteapi.ApiLocation;
@@ -28,7 +26,7 @@ import com.sygic.sdk.remoteapi.model.WayPoint;
  * geocoding
  */
 public class LocationFragment extends Fragment {
-    private EditText mPosX, mPosY, mAddress;
+    private EditText mPosX, mPosY, mAddress, mCustomAddress;
     private TextView mText;
 
     public LocationFragment() {
@@ -53,10 +51,12 @@ public class LocationFragment extends Fragment {
         SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         int[] coords = {sharedPref.getInt("locStopLon", 0), sharedPref.getInt("locStopLat", 0)};
         String address = sharedPref.getString("locAddress", "");
+        String customAddress = sharedPref.getString("customAddress", "");
 
         mPosX.setText(coords[0] == 0 ? "" : Integer.toString(coords[0]));
         mPosY.setText(coords[1] == 0 ? "" : Integer.toString(coords[1]));
         mAddress.setText(address);
+        mCustomAddress.setText(customAddress);
 
         return mRoot;
     }
@@ -68,15 +68,17 @@ public class LocationFragment extends Fragment {
         editor.putInt("locStopLon", mPosX.getText().toString().equals("") ? 0 : Integer.parseInt(mPosX.getText().toString()));
         editor.putInt("locStopLat", mPosY.getText().toString().equals("") ? 0 : Integer.parseInt(mPosY.getText().toString()));
         editor.putString("locAddress", mAddress.getText().toString());
+        editor.putString("customAddress", mCustomAddress.getText().toString());
         editor.commit();
         super.onDestroyView();
     }
 
     private void registerFields(View view) {
-        mPosX = (EditText) view.findViewById(R.id.et1);
-        mPosY = (EditText) view.findViewById(R.id.et2);
-        mAddress = (EditText) view.findViewById(R.id.et3);
-        mText = (TextView) view.findViewById(R.id.tv1);
+        mPosX = view.findViewById(R.id.et1);
+        mPosY = view.findViewById(R.id.et2);
+        mAddress = view.findViewById(R.id.et3);
+        mText = view.findViewById(R.id.tv1);
+        mCustomAddress = view.findViewById(R.id.edCustomAddress);
     }
 
     private void registerButtons(View rootView) {
@@ -142,7 +144,16 @@ public class LocationFragment extends Fragment {
                 if (!mPosY.getText().toString().equals("")) {
                     y = Integer.parseInt(mPosY.getText().toString());
                     String address = ApiLocation.getLocationAddressInfo(new Position(x, y), SdkApplication.MAX);
-                    ApiNavigation.startNavigation(new WayPoint(address, x, y), 0, false, SdkApplication.MAX);
+                    String customAddress = mCustomAddress.getText().toString();
+                    WayPoint wayPoint;
+
+                    if (customAddress.isEmpty()) {
+                        wayPoint = new WayPoint(address, x, y);
+                    } else {
+                        wayPoint = new WayPoint(address, x, y, customAddress);
+                    }
+
+                    ApiNavigation.startNavigation(wayPoint, 0, false, SdkApplication.MAX);
                 } else {
                     mPosY.startAnimation(shake);
                 }
@@ -158,7 +169,14 @@ public class LocationFragment extends Fragment {
                     mAddress.startAnimation(shake);
                 } else {
                     Position pos = ApiLocation.locationFromAddress(mAddress.getText().toString(), false, true, 0);
-                    ApiNavigation.startNavigation(new WayPoint(mAddress.getText().toString(), pos.getX(), pos.getY()), 0, false, 0);
+                    String customAddress = mCustomAddress.getText().toString();
+                    WayPoint wayPoint;
+                    if (customAddress.isEmpty()) {
+                        wayPoint = new WayPoint(mAddress.getText().toString(), pos.getX(), pos.getY());
+                    } else {
+                        wayPoint = new WayPoint(mAddress.getText().toString(), pos.getX(), pos.getY(), customAddress);
+                    }
+                    ApiNavigation.startNavigation(wayPoint, 0, false, 0);
                 }
             } catch (GeneralException e) {
                 e.printStackTrace();
