@@ -15,17 +15,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.ToggleButton;
-
+import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-
 import com.sygic.example.ipcdemo3d.ActivityResolver;
 import com.sygic.example.ipcdemo3d.R;
 import com.sygic.example.ipcdemo3d.SdkActivity;
@@ -164,6 +157,7 @@ public class NaviFragment extends Fragment {
         mView.findViewById(R.id.btn_flash).setEnabled(appRunning && connected);
         mView.findViewById(R.id.btn_show).setEnabled(appRunning && connected);
         mView.findViewById(R.id.btn_sdk_version).setEnabled(appRunning && connected);
+        mView.findViewById(R.id.btnCleanUpMap).setEnabled(appRunning && connected);
     }
 
 
@@ -294,6 +288,18 @@ public class NaviFragment extends Fragment {
                     }
                 }).start();
             }
+        });
+
+        Button btnCleanUpMaps = view.findViewById(R.id.btnCleanUpMap);
+        btnCleanUpMaps.setOnClickListener(v -> {
+            new Thread(() -> {
+                try {
+                    Api.cleanUpMap();
+                    requireActivity().runOnUiThread(() -> Toast.makeText(getContext(), "Maps cleaned up", Toast.LENGTH_SHORT).show());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }).start();
         });
     }
 
